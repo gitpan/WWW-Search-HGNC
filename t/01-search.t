@@ -1,16 +1,14 @@
-use Test::More tests => 8;
-use WWW::Search;
+use Test::More tests => 9;
+BEGIN { use_ok('WWW::Search') }
 
 my $search = new WWW::Search('HGNC');
 $search->native_query('12403');
+
 my $prot = $search->next_result;
-
-my $got_prot = $prot ? 1 : 0;
-
-ok( $got_prot, 'got protein' );
+ok( $prot, 'got protein' );
 
 SKIP: {
-  skip "couldn't fetch protein" => 7 unless $got_prot;
+  skip "couldn't fetch protein" => 7 unless $prot;
 
   is( $prot->{approved_symbol}, 'TTN', 'approved_symbol' );
   is( $prot->{approved_name}, 'titin', 'approved_name' );

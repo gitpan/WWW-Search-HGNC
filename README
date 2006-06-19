@@ -1,14 +1,41 @@
-WWW::Search::HGNC 0.01
+WWW::Search::HGNC 0.02
 ======================
+
+WWW::Search::HGNC is an interface to the Human Genome Organization
+Nomenclature Committee's database of human proteins
+(<http://www.gene.ucl.ac.uk/nomenclature/>).
+
+It uses the WWW::Search API to provide a familiar interface to
+fetching information:
+
+  use WWW::Search;
+  my $search = new WWW::Search('HGNC');
+
+  my @hgnc_ids = [ 9092, 12043 ];
+  $search->native_query( \@hgnc_ids );
+
+  while( my $prot = $search->next_result ) {
+    printf "Approved symbol: %s\n", $prot->{approved_symbol};
+    printf "Approved name: %s\n", $prot->{approved_name};
+    printf "HGNC ID: %s\n", $prot->{hgnc_id};
+    # ... etc.
+  }
+
+PREREQUISITES
+
+  * Test::More
+  * WWW::Search
+  * Text::RecordParser
+  * Text::ParseWords
 
 INSTALLATION
 
 To install this module, run the following commands:
 
-    perl Makefile.PL
-    make
-    make test
-    make install
+  perl Makefile.PL
+  make
+  make test
+  make install
 
 SUPPORT AND DOCUMENTATION
 

@@ -1,11 +1,10 @@
 # http://module-build.sourceforge.net/META-spec.html
 #XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
 name:         WWW-Search-HGNC
-version:      0.01
+version:      0.02
 version_from: lib/WWW/Search/HGNC.pm
 installdirs:  site
 requires:
-    LWP::UserAgent:                0
     Test::More:                    0
     Text::ParseWords:              0
     Text::RecordParser::Tab:       0

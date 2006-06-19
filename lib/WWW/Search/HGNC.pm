@@ -5,12 +5,10 @@ use warnings;
 use strict;
 
 use WWW::SearchResult;
-
-use LWP::UserAgent;
 use Text::RecordParser::Tab;
 use Text::ParseWords;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 NAME
 
@@ -33,168 +31,172 @@ WWW::Search::HGNC - Access HGNC's database of proteins
 
 =head1 DESCRIPTION
 
-The HUGO Gene Nomenclature Committee (HGNC) maintains a database of
-human proteins (L<http://www.gene.ucl.ac.uk/nomenclature/>). This
-module provides access to protein information via the L<WWW::Search>
-interface.
+This module provides access to the HUGO Gene Nomenclature Committee
+(HGNC) database of human proteins
+(L<http://www.gene.ucl.ac.uk/nomenclature/>).
+
+If you are unfamiliar with the L<WWW::Search> interface, see the
+synopsis for an example of how you might use this module. As its first
+argument, the C<native_query> method accepts either an HGNC ID or a
+reference to an array of such IDs. Results returned by the
+C<next_result> method (named C<$prot> above) are L<WWW::SearchResult>
+objects containing data about the target protein. Each result contains
+the following fields.
 
 =head1 RESULT FIELDS
 
-The results returned by this module are L<WWW::SearchResult> objects
-containing the following fields.
-
 =head2 accession_numbers
 
-  @values = @{ $prot->accession_numbers };
+  @values = @{ $prot->{accession_numbers} };
 
-Corresponds to the 'Accession Numbers' HGNC field.
+Corresponds to the 'Accession Numbers' field.
 
 =head2 aliases
 
-  @values = @{ $prot->aliases };
+  @values = @{ $prot->{aliases} };
 
-Corresponds to the 'Aliases' HGNC field.
+Corresponds to the 'Aliases' field.
 
 =head2 approved_name
 
-  $value = $prot->approved_name;
+  $value = $prot->{approved_name};
 
-Corresponds to the 'Approved Name' HGNC field.
+Corresponds to the 'Approved Name' field.
 
 =head2 approved_symbol
 
-  $value = $prot->approved_symbol;
+  $value = $prot->{approved_symbol};
 
-Corresponds to the 'Approved Symbol' HGNC field.
+Corresponds to the 'Approved Symbol' field.
 
 =head2 chromosome
 
-  $value = $prot->chromosome;
+  $value = $prot->{chromosome};
 
-Corresponds to the 'Chromosome' HGNC field.
+Corresponds to the 'Chromosome' field.
 
 =head2 date_approved
 
-  $value = $prot->date_approved;
+  $value = $prot->{date_approved};
 
-Corresponds to the 'Date Approved' HGNC field.
+Corresponds to the 'Date Approved' field.
 
 =head2 date_modified
 
-  $value = $prot->date_modified;
+  $value = $prot->{date_modified};
 
-Corresponds to the 'Date Modified' HGNC field.
+Corresponds to the 'Date Modified' field.
 
 =head2 date_name_changed
 
-  $value = $prot->date_name_changed;
+  $value = $prot->{date_name_changed};
 
-Corresponds to the 'Date Name Changed' HGNC field.
+Corresponds to the 'Date Name Changed' field.
 
 =head2 entrez_gene_ids
 
-  @values = @{ $prot->entrez_gene_ids };
+  @values = @{ $prot->{entrez_gene_ids} };
 
-Corresponds to the 'Entrez Gene ID' HGNC field.
+Corresponds to the 'Entrez Gene ID' field.
 
 =head2 mapped_entrez_gene_id
 
-  $value = $prot->mapped_entrez_gene_id;
+  $value = $prot->{mapped_entrez_gene_id};
 
-Corresponds to the 'Entrez Gene ID (mapped data)' HGNC field.
+Corresponds to the 'Entrez Gene ID (mapped data)' field.
 
 =head2 enzyme_ids
 
-  @values = @{ $prot->enzyme_ids };
+  @values = @{ $prot->{enzyme_ids} };
 
-Corresponds to the 'Enzyme IDs' HGNC field.
+Corresponds to the 'Enzyme IDs' field.
 
 =head2 mapped_gdb_id, gdb_id
 
-  $value = $prot->mapped_gdb_id;
-  $value = $prot->gdb_id;
+  $value = $prot->{mapped_gdb_id};
+  $value = $prot->{gdb_id};
 
-Corresponds to the 'GDB ID (mapped data)' HGNC field.
+Corresponds to the 'GDB ID (mapped data)' field.
 
 =head2 gene_family_names
 
-  @values = @{ $prot->gene_family_names };
+  @values = @{ $prot->{gene_family_names} };
 
-Corresponds to the 'Gene Family Name' HGNC field.
+Corresponds to the 'Gene Family Name' field.
 
 =head2 hgnc_id
 
-  $value = $prot->hgnc_id;
+  $value = $prot->{hgnc_id};
 
-Corresponds to the 'HGNC ID' HGNC field.
+Corresponds to the 'HGNC ID' field.
 
 =head2 locus_type
 
-  $value = $prot->locus_type;
+  $value = $prot->{locus_type};
 
-Corresponds to the 'Locus Type' HGNC field.
+Corresponds to the 'Locus Type' field.
 
 =head2 mgd_id
 
-  $value = $prot->mgd_id;
+  $value = $prot->{mgd_id};
 
-Corresponds to the 'MGD ID' HGNC field.
+Corresponds to the 'MGD ID' field.
 
 =head2 misc_ids
 
-  @values = @{ $prot->misc_ids };
+  @values = @{ $prot->{misc_ids} };
 
-Corresponds to the 'Misc IDs' HGNC field.
+Corresponds to the 'Misc IDs' field.
 
 =head2 mapped_omim_id, omim_id
 
-  $value = $prot->mapped_omim_id;
-  $value = $prot->omim_id;
+  $value = $prot->{mapped_omim_id};
+  $value = $prot->{omim_id};
 
-Corresponds to the 'OMIM ID (mapped data)' HGNC field.
+Corresponds to the 'OMIM ID (mapped data)' field.
 
 =head2 previous_names
 
-  $value = $prot->previous_names;
+  $value = $prot->{previous_names};
 
-Corresponds to the 'Previous Names' HGNC field.
+Corresponds to the 'Previous Names' field.
 
 =head2 previous_symbols
 
-  @values = @{ $prot->previous_symbols };
+  @values = @{ $prot->{previous_symbols} };
 
-Corresponds to the 'Previous Symbols' HGNC field.
+Corresponds to the 'Previous Symbols' field.
 
 =head2 pubmed_ids
 
-  @values = @{ $prot->pubmed_ids };
+  @values = @{ $prot->{pubmed_ids} };
 
-Corresponds to the 'Pubmed IDs' HGNC field.
+Corresponds to the 'Pubmed IDs' field.
 
 =head2 mapped_refseq_id
 
-  $value = $prot->mapped_refseq_id;
+  $value = $prot->{mapped_refseq_id};
 
-Corresponds to the 'RefSeq (mapped data)' HGNC field.
+Corresponds to the 'RefSeq (mapped data)' field.
 
 =head2 refseq_ids
 
-  @values = @{ $prot->refseq_ids };
+  @values = @{ $prot->{refseq_ids} };
 
-Corresponds to the 'RefSeq IDs' HGNC field.
+Corresponds to the 'RefSeq IDs' field.
 
 =head2 status
 
-  $value = $prot->status;
+  $value = $prot->{status};
 
-Corresponds to the 'Status' HGNC field.
+Corresponds to the 'Status' field.
 
 =head2 mapped_uniprot_id, uniprot_id
 
-  $value = $prot->mapped_uniprot_id;
-  $value = $prot->uniprot_id;
+  $value = $prot->{mapped_uniprot_id};
+  $value = $prot->{uniprot_id};
 
-Corresponds to the 'UniProt ID (mapped data)' HGNC field.
+Corresponds to the 'UniProt ID (mapped data)' field.
 
 =cut
 
@@ -205,12 +207,6 @@ sub native_setup_search {
   $self->{_idx} = 0;
   $self->user_agent(1);
 }
-
-=head2 native_retrieve_some
-
-Fetches protein data from the Hugo Nomenclature Committee's database.
-
-=cut
 
 sub native_retrieve_some {
   my $self = shift;
@@ -228,13 +224,10 @@ sub native_retrieve_some {
   while( my( $label, $field ) = each %$fields ) {
     my $value = $rec->{$label};
     $value = [ quotewords( '\s*,\s*', 0, $value ) ] if $field->{comma_delim};
-
     $data{$_} = $value foreach @{ $field->{fields} };
   }
 
   return undef unless $data{hgnc_id};
-
-  $self->approximate_result_count(1);
 
   my $hit = new WWW::SearchResult();
   $hit->{$_} = $data{$_} for keys %data;

@@ -12,7 +12,6 @@ WriteMakefile(
         'Test::More' => 0,
         'WWW::Search' => 0,
         'WWW::SearchResult' => 0,
-        'LWP::UserAgent' => 0,
         'Text::RecordParser::Tab' => 0,
         'Text::ParseWords' => 0,
     },

@@ -1,5 +1,11 @@
 # Revision history for WWW-Search-HGNC
 
+version: 0.02
+date:    2006-06-19
+changes:
+  - proper readme
+  - fix docs
+
 version: 0.01
 date:    2006-06-17
 changes:
